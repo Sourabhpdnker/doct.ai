@@ -1,0 +1,2 @@
+# doct.ai
+ai doctor
