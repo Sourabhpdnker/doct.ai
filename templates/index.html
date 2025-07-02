@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Health Care Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo Section -->
+      <div class="flex items-center space-x-3">
+        <img src="{{ url_for('static', filename='img.png') }}" alt="Logo" class="h-10 w-10 rounded-full border border-indigo-500" />
+        <span class="text-2xl font-bold text-indigo-600">Health Center</span>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="#" class="text-gray-700 font-medium hover:text-indigo-600 transition duration-300 hover:underline underline-offset-4">Home</a>
+        <a href="/about" class="text-gray-700 font-medium hover:text-indigo-600 transition duration-300 hover:underline underline-offset-4">About</a>
+        <a href="/contact" class="text-gray-700 font-medium hover:text-indigo-600 transition duration-300 hover:underline underline-offset-4">Contact</a>
+        <a href="/developer" class="text-gray-700 font-medium hover:text-indigo-600 transition duration-300 hover:underline underline-offset-4">Developer</a>
+        <a href="/blog" class="text-gray-700 font-medium hover:text-indigo-600 transition duration-300 hover:underline underline-offset-4">Blog</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-indigo-600 focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white border-t border-gray-200 animate-slide-down">
+    <a href="#" class="block py-2 text-gray-700 hover:text-indigo-600">Home</a>
+    <a href="/about" class="block py-2 text-gray-700 hover:text-indigo-600">About</a>
+    <a href="/contact" class="block py-2 text-gray-700 hover:text-indigo-600">Contact</a>
+    <a href="/developer" class="block py-2 text-gray-700 hover:text-indigo-600">Developer</a>
+    <a href="/blog" class="block py-2 text-gray-700 hover:text-indigo-600">Blog</a>
+  </div>
+
+  <script>
+    // Mobile menu toggle script
+    const btn = document.getElementById("mobile-menu-button");
+    const menu = document.getElementById("mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+
+  <style>
+    @keyframes slide-down {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .animate-slide-down {
+      animation: slide-down 0.3s ease-out;
+    }
+  </style>
+</nav>
+
+
+  <!-- Main Heading -->
+  <header class="text-center py-12">
+    <h1 class="text-4xl font-bold text-indigo-700">Health Care Center</h1>
+    <p class="text-gray-600 mt-2 text-lg">AI-powered Disease Diagnosis & Recommendations</p>
+  </header>
+
+  <!-- Form Section -->
+  <section class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <form action="/predict" method="post">
+      <div class="mb-6">
+        <label for="symptoms" class="block text-lg font-medium text-gray-700">Enter Symptoms:</label>
+        <input type="text" id="symptoms" name="symptoms"
+          class="mt-2 w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          placeholder="e.g. fever, headache, fatigue" />
+      </div>
+      <button type="button" id="startSpeechRecognition"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">🎤 Start Speech Recognition</button>
+      <div id="transcription" class="mt-4 text-sm text-gray-500"></div>
+
+      {% if message %}
+        <p class="mt-4 text-red-500">{{ message }}</p>
+      {% endif %}
+
+      <button type="submit"
+        class="w-full mt-6 bg-red-500 hover:bg-red-600 text-white text-lg py-3 rounded-md">🔍 Predict</button>
+    </form>
+  </section>
+
+  {% if predicted_disease %}
+  <!-- Results Section -->
+  <section class="max-w-5xl mx-auto mt-12">
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Diagnosis Result</h2>
+
+    <!-- Buttons -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center px-4">
+      <button class="bg-orange-400 text-white font-medium py-2 rounded hover:bg-orange-500" data-type="disease" onclick="showInfo(this)">Disease</button>
+      <button class="bg-blue-400 text-white font-medium py-2 rounded hover:bg-blue-500" data-type="description" onclick="showInfo(this)">Description</button>
+      <button class="bg-pink-400 text-white font-medium py-2 rounded hover:bg-pink-500" data-type="precaution" onclick="showInfo(this)">Precaution</button>
+      <button class="bg-red-400 text-white font-medium py-2 rounded hover:bg-red-500" data-type="medications" onclick="showInfo(this)">Medications</button>
+      <button class="bg-lime-400 text-white font-medium py-2 rounded hover:bg-lime-500" data-type="workouts" onclick="showInfo(this)">Workouts</button>
+      <button class="bg-yellow-400 text-white font-medium py-2 rounded hover:bg-yellow-500" data-type="diets" onclick="showInfo(this)">Diets</button>
+    </div>
+
+    <!-- Dynamic Panel -->
+    <div id="panelsContainer" class="mt-8 space-y-6 px-4"></div>
+  </section>
+  {% endif %}
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-gray-700 mt-16 border-t">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+
+    <!-- About -->
+    <div>
+      <h3 class="text-xl font-semibold text-indigo-600 mb-4">Health Center</h3>
+      <p class="text-sm text-gray-600">
+        Empowering your well-being through technology. Get instant health predictions, diagnosis, and guidance anytime, anywhere.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="font-semibold mb-3 text-indigo-600">Quick Links</h4>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/" class="hover:text-indigo-600">Home</a></li>
+        <li><a href="/about" class="hover:text-indigo-600">About</a></li>
+        <li><a href="/contact" class="hover:text-indigo-600">Contact</a></li>
+        <li><a href="/blog" class="hover:text-indigo-600">Blog</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div>
+      <h4 class="font-semibold mb-3 text-indigo-600">Services</h4>
+      <ul class="space-y-2 text-sm">
+        <li>Disease Prediction</li>
+        <li>Diagnosis Report</li>
+        <li>Health Tips</li>
+        <li>Doctor Consultation</li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div>
+      <h4 class="font-semibold mb-3 text-indigo-600">Contact Us</h4>
+      <p class="text-sm">Email: support@healthcenter.com</p>
+      <p class="text-sm">Phone: +91 98765 43210</p>
+      <p class="text-sm">Location: Delhi, India</p>
+
+      <!-- Social Media Icons -->
+      <div class="flex mt-4 space-x-4">
+        <a href="#" class="text-gray-600 hover:text-indigo-600" aria-label="Facebook">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12A10 10 0 102 12a10 10 0 0020 0zm-5.5-3h-1.2c-.4 0-.8.3-.8.8v1.2h2l-.3 2H14.5v6h-2.5v-6h-1.5v-2h1.5v-1.5a2.5 2.5 0 012.5-2.5h1.5v2z"/></svg>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-indigo-600" aria-label="Instagram">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm0 2h10c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3zm5 3.5A5.5 5.5 0 0011.5 16 5.5 5.5 0 0017 10.5 5.5 5.5 0 0012 5.5zm0 2a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm4.5-.5a1 1 0 110 2 1 1 0 010-2z"/></svg>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-indigo-600" aria-label="LinkedIn">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3C3.88 3 3 3.9 3 5s.88 2 1.98 2S7 6.1 7 5s-.88-2-2.02-2zM3 8h4v12H3V8zm6 0h3.6v1.8h.1c.5-.9 1.7-1.8 3.4-1.8 3.6 0 4.3 2.3 4.3 5.2V20h-4v-5.4c0-1.3 0-3-1.8-3s-2 1.4-2 2.9V20H9V8z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white border-t text-center py-4 text-sm text-gray-500">
+    &copy; 2025 Health Care Center. All rights reserved.
+  </div>
+</footer>
+
+
+  <!-- JS: Speech Recognition & Panel Rendering -->
+  <script>
+    const startSpeechRecognitionButton = document.getElementById('startSpeechRecognition');
+    const transcriptionDiv = document.getElementById('transcription');
+
+    startSpeechRecognitionButton.addEventListener('click', () => {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.onresult = (event) => {
+        transcriptionDiv.textContent = event.results[0][0].transcript;
+      };
+      recognition.start();
+    });
+
+    {% if predicted_disease %}
+    const panelData = {
+      disease: `{{ predicted_disease | safe }}`,
+      description: `{{ dis_des | safe }}`,
+      precaution: `<ul class="list-disc list-inside">{% for i in my_precautions %}<li>{{ i }}</li>{% endfor %}</ul>`,
+      medications: `<ul class="list-disc list-inside">{% for i in medications %}<li>{{ i }}</li>{% endfor %}</ul>`,
+      workouts: `<ul class="list-disc list-inside">{% for i in workout %}<li>{{ i }}</li>{% endfor %}</ul>`,
+      diets: `<ul class="list-disc list-inside">{% for i in my_diet %}<li>{{ i }}</li>{% endfor %}</ul>`
+    };
+
+    const panelTitles = {
+      disease: 'Disease',
+      description: 'Description',
+      precaution: 'Precaution',
+      medications: 'Medications',
+      workouts: 'Workouts',
+      diets: 'Diets'
+    };
+
+    const panelsContainer = document.getElementById('panelsContainer');
+
+    function showInfo(button) {
+      const type = button.getAttribute('data-type');
+      const panel = document.createElement('div');
+      panel.className = 'bg-white p-6 rounded-lg shadow border border-gray-200 transition transform scale-95 hover:scale-100';
+
+      const header = document.createElement('div');
+      header.className = 'flex justify-between items-center mb-4';
+
+      const title = document.createElement('h3');
+      title.className = 'text-xl font-semibold text-indigo-600';
+      title.textContent = panelTitles[type];
+
+      const close = document.createElement('button');
+      close.innerHTML = '&times;';
+      close.className = 'text-gray-400 hover:text-gray-600 text-2xl font-bold';
+      close.onclick = () => panel.remove();
+
+      header.appendChild(title);
+      header.appendChild(close);
+
+      const content = document.createElement('div');
+      content.innerHTML = panelData[type];
+
+      panel.appendChild(header);
+      panel.appendChild(content);
+      panelsContainer.appendChild(panel);
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    {% endif %}
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - HealthPlus AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="HealthPlus Logo" class="w-10 h-10 rounded-full border" />
+      <h1 class="text-2xl font-bold text-blue-700">HealthPlus AI</h1>
+    </div>
+    <nav>
+      <ul class="flex gap-5 text-gray-700">
+        <li><a href="/" class="hover:text-blue-600">Home</a></li>
+        <li><a href="/about" class="text-blue-600 font-semibold">About</a></li>
+        <li><a href="/services" class="hover:text-blue-600">Services</a></li>
+        <li><a href="/contact" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+
+    <!-- 1. Introduction -->
+    <section class="text-center">
+      <h2 class="text-4xl font-bold text-blue-700 mb-4">Who We Are</h2>
+      <p class="text-lg max-w-3xl mx-auto">
+        At <strong>HealthPlus AI</strong>, we're revolutionizing healthcare by integrating advanced <strong>Artificial Intelligence and Machine Learning</strong> to provide fast, reliable, and personalized disease diagnosis and health recommendations—anytime, anywhere.
+      </p>
+    </section>
+
+    <!-- 2. What We Do -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">What We Do</h3>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Symptom-based Disease Prediction</li>
+        <li>Personalized Treatment Recommendations</li>
+        <li>Health Monitoring & Insights</li>
+        <li>Preventive Care Advice (Diet, Exercise, Lifestyle)</li>
+        <li class="text-gray-500 italic">Upcoming: Telemedicine Integration</li>
+      </ul>
+    </section>
+
+    <!-- 3. How It Works -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">How It Works</h3>
+      <div class="grid md:grid-cols-2 gap-6 text-lg">
+        <div>
+          <p><strong>Step 1:</strong> Users input symptoms via a secure interface.</p>
+          <p><strong>Step 2:</strong> Our AI model analyzes symptoms using trained ML/DL algorithms.</p>
+          <p><strong>Step 3:</strong> Instant diagnosis and personalized health suggestions are provided.</p>
+        </div>
+        <div>
+          <p><strong>Data Sources:</strong> We utilize verified medical datasets like <span class="italic">WHO, CDC, and PubMed</span> to ensure accuracy and relevance in our results.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Mission & Vision -->
+    <section class="bg-blue-50 p-6 rounded-xl">
+      <h3 class="text-3xl font-semibold text-blue-700 mb-2">Our Mission & Vision</h3>
+      <p class="text-lg">
+        Our mission is to make healthcare <strong>accessible, accurate, and AI-driven</strong>—empowering individuals with the insights they need to take proactive steps toward better health.
+        We envision a world where intelligent diagnostics are available to everyone, regardless of geography or income.
+      </p>
+    </section>
+
+    <!-- 5. Why Choose Us -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">Why Choose Us</h3>
+      <ul class="grid md:grid-cols-2 gap-4 text-lg">
+        <li>✔️ Accurate, AI-backed Predictions</li>
+        <li>✔️ Privacy-First Approach</li>
+        <li>✔️ Evidence-Based Medical Advice</li>
+        <li>✔️ Constantly Improving Models</li>
+        <li>✔️ Collaboration with Medical Experts</li>
+      </ul>
+    </section>
+
+    <!-- 6. Our Team (Optional) -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">Meet the Team</h3>
+      <p class="text-lg">Behind HealthPlus AI is a dedicated team of doctors, engineers, data scientists, and healthcare advisors working together to redefine digital healthcare.</p>
+    </section>
+
+    <!-- 7. Data Privacy & Ethics -->
+    <section class="bg-gray-100 p-6 rounded-xl">
+      <h3 class="text-3xl font-semibold text-blue-700 mb-2">Data Privacy & Ethics</h3>
+      <p class="text-lg">
+        We are committed to safeguarding your health data. Our platform complies with <strong>HIPAA</strong> and <strong>GDPR</strong> standards and adheres to strict ethical guidelines to ensure your trust and confidentiality.
+      </p>
+    </section>
+
+    <!-- 8. Testimonials (Optional) -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">What People Say</h3>
+      <blockquote class="border-l-4 border-blue-600 pl-4 italic text-lg text-gray-700">
+        "HealthPlus AI helped me understand my symptoms instantly and take timely action. It's like having a doctor in your pocket!" – Priya S., Beta User
+      </blockquote>
+    </section>
+
+    <!-- 9. Contact & Location -->
+    <section>
+      <h3 class="text-3xl font-semibold text-gray-800 mb-4">Contact & Location</h3>
+      <p class="text-lg">We are based in Bengaluru, India. Visit our <a href="/contact" class="text-blue-600 underline">Contact Page</a> to get in touch.</p>
+    </section>
+
+    <!-- 10. Call to Action -->
+    <section class="text-center mt-10">
+      <h4 class="text-2xl font-bold mb-2">Take Control of Your Health</h4>
+      <a href="" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-200">
+        Try Our AI Diagnosis Tool
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t mt-16 p-4 text-center text-gray-500 text-sm">
+    &copy; 2025 HealthPlus AI. All rights reserved.
+  </footer>
+
+</body>
+
+</html>
